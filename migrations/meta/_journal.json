@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1700919029995,
+      "tag": "0000_faulty_guardsmen",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1700926104912,
+      "tag": "0001_youthful_karen_page",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1700989924162,
+      "tag": "0002_last_ken_ellis",
+      "breakpoints": true
+    }
+  ]
+}

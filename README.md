@@ -14,6 +14,17 @@ pnpm dev
 bun dev
 ```
 
+### Migrations and Schema Changes
+After changing the schema, run the command below to generate a migration:
+```bash
+npm run generate
+```
+What if you have done changes directly on your database? How can I take it and put it here on your code?
+Simple, just run the command below:
+```bash
+npm run pull
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
