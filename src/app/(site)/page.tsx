@@ -9,6 +9,8 @@ import { randomUUID } from 'crypto';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import CustomCard from '@/components/landing-page/custom-card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CardDescription, CardTitle } from '@/components/ui/card';
 
 const HomePage = () => {
   return (
@@ -139,6 +141,33 @@ const HomePage = () => {
                 <CustomCard
                   key={testimonial.name}
                   className='w-[500px] shrink-0 rounded-xl dark:bg-gradient-to-t dark:from-border dark:to-background'
+                  cardHeader={
+                    <div
+                      className='flex items-center gap-4'
+                    >
+                      <Avatar>
+                        <AvatarImage src={`/assets/images/avatars/${index + 1}.png`} />
+                        <AvatarFallback>AV</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className='text-foreground'>
+                          {testimonial.name}
+                        </CardTitle>
+                        <CardDescription
+                          className='dark:text-washed-purple-800'
+                        >
+                          {testimonial.name.toLowerCase()}
+                        </CardDescription>
+                      </div>
+                    </div>
+                  }
+                  cardContent={
+                    <p
+                      className='dark:text-washed-purple-800'
+                    >
+                      {testimonial.message}
+                    </p>
+                  }
                 >
                 </CustomCard>
               ))}
