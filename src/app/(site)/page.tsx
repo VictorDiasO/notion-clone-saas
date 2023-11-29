@@ -4,13 +4,15 @@ import Image from 'next/image'
 import React from 'react'
 import AppBanner from '../../../public/assets/images/appBanner.png';
 import Calendar from '../../../public/assets/images/cal.png';
-import { CLIENTS, USERS } from '@/lib/constants';
+import Diamond from '../../../public/assets/icons/diamond.svg';
+import CheckIcon from '../../../public/assets/icons/check.svg';
+import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from '@/lib/constants';
 import { randomUUID } from 'crypto';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import CustomCard from '@/components/landing-page/custom-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { CardDescription, CardTitle } from '@/components/ui/card';
+import { CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 
 const HomePage = () => {
   return (
@@ -172,6 +174,83 @@ const HomePage = () => {
                 </CustomCard>
               ))}
             </div>
+          ))}
+        </div>
+      </section>
+      <section
+        className='mt-20 px-4 sm:px-6'
+      >
+        <TitleSection
+          title="The Perfect Plan For You"
+          subheading="Experience all the benefits of our platform. Select a plan that suits your needs and take your productivity to new heights."
+          pill="Pricing"
+        />
+        <div
+          className='flex flex-col-reverse sm:flex-row gap-4 justify-center sm:items-stretch items-center mt-10'
+        >
+          {PRICING_CARDS.map((card) => (
+            <CustomCard
+              key={card.planType}
+              className={
+                clsx('w-[300px] rounded-2xl dark:bg-black/95 background-blur-3xl relative',
+                {
+                  'border-brand-primaryPurple/70': card.planType === PRICING_PLANS.proplan,
+                })
+              }
+              cardHeader={
+                <CardTitle className='text-2xl font-semibold'>
+                  {card.planType === PRICING_PLANS.proplan && (
+                    <>
+                      <div className='hidden dark:block w-full bluer-[120px] rounded-full h-32 absolute bg-brand-primaryPurple/80 -z-10 top-0' />
+                      <Image
+                        src={Diamond}
+                        alt='Pro Plan Icon'
+                        className='absolute top-6 right-6'
+                      />
+                    </>
+                  )}
+                  {card.planType}
+                </CardTitle>
+              }
+              cardContent={
+                <CardContent className='p-0'>
+                  <span className='font-normal text-2xl'>
+                    ${card.price}
+                  </span>
+                  {+card.price > 0
+                    ? <span className='dark:text-washed-purple-800 ml-1'>
+                      /mo
+                    </span>
+                    : ''
+                  }
+                  <p className='dark:text-washed-purple-800'>
+                    {card.description}
+                  </p>
+                </CardContent>
+              }
+              cardFooter={
+                <ul
+                  className='font-normal flex mb-2 flex-col gap-4'
+                >
+                  <small>
+                    {card.highlightFeature}
+                    {card.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className='flex items-center gap-2'
+                      >
+                        <Image
+                          src={CheckIcon}
+                          alt="Check Icon"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </small>
+                </ul>
+              }
+            >
+            </CustomCard>
           ))}
         </div>
       </section>
