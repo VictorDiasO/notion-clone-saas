@@ -192,7 +192,7 @@ const HomePage = () => {
             <CustomCard
               key={card.planType}
               className={
-                clsx('w-[300px] rounded-2xl dark:bg-black/95 background-blur-3xl relative',
+                clsx('w-[300px] rounded-2xl dark:bg-black/40 background-blur-3xl relative',
                 {
                   'border-brand-primaryPurple/70': card.planType === PRICING_PLANS.proplan,
                 })
@@ -201,7 +201,7 @@ const HomePage = () => {
                 <CardTitle className='text-2xl font-semibold'>
                   {card.planType === PRICING_PLANS.proplan && (
                     <>
-                      <div className='hidden dark:block w-full bluer-[120px] rounded-full h-32 absolute bg-brand-primaryPurple/80 -z-10 top-0' />
+                      <div className='hidden dark:block w-full blur-[120px] rounded-full h-32 absolute bg-brand-primaryPurple/80 -z-10 top-0' />
                       <Image
                         src={Diamond}
                         alt='Pro Plan Icon'
@@ -226,6 +226,12 @@ const HomePage = () => {
                   <p className='dark:text-washed-purple-800'>
                     {card.description}
                   </p>
+                  <Button
+                    variant="btn-primary"
+                    className='whitespace-nowrap w-full mt-4'
+                  >
+                    {card.planType === PRICING_PLANS.proplan ? 'Go Pro' : 'Get Started'}
+                  </Button>
                 </CardContent>
               }
               cardFooter={
