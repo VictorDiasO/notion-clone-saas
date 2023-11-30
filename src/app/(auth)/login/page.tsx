@@ -5,10 +5,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormSchema } from '@/lib/types';
-import { Form } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import Link from 'next/link';
 import Logo from '../../../../public/cypresslogo.svg';
 import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Loader from '@/components/Loader';
+import { actionLoginUser } from '@/components/server-action/auth-actions';
 
 const Login = () => {
   const router = useRouter();
@@ -28,6 +32,12 @@ const Login = () => {
   const onSubmit:SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
   ) => {
+    const {error} = await actionLoginUser(formData);
+    if (error) {
+      form.reset();
+      setSubmitError(error.message);
+    }
+    router.replace('/dashboard');
   }
 
   return (
@@ -55,6 +65,65 @@ const Login = () => {
             flowcus.
           </span>
         </Link>
+        <FormDescription
+          className='text-foreground/60'
+        >
+          An all-In-One Collaboration and Productivity Platform
+        </FormDescription>
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name='email'
+          render={(field) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type='email'
+                  placeholder='Email'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name='password'
+          render={(field) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type='password'
+                  placeholder='Password'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {submitError && <FormMessage>{submitError}</FormMessage>}
+        <Button
+          type='submit'
+          className='w-full p-6'
+          size='lg'
+          disabled={isLoading}
+        >
+          {!isLoading ? "Login" : <Loader />} 
+        </Button>
+        <span
+          className='self-container'
+        >
+          Don&apos;t have an account?{' '}
+          <Link
+            href={'/signup'}
+            className='text-primary'
+          >
+            Sign Up
+          </Link>
+        </span>
       </form>
     </Form>
   )
