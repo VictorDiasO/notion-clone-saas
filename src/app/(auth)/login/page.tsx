@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/Loader';
-import { actionLoginUser } from '@/components/server-action/auth-actions';
+import { actionLoginUser } from '@/lib/server-action/auth-actions';
 
 const Login = () => {
   const router = useRouter();
@@ -74,7 +74,7 @@ const Login = () => {
           disabled={isLoading}
           control={form.control}
           name='email'
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
@@ -91,7 +91,7 @@ const Login = () => {
           disabled={isLoading}
           control={form.control}
           name='password'
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
