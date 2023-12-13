@@ -35,7 +35,7 @@ const Dashboard = async () => {
     </div>
   );
 
-  redirect(`/dashboard${workspace.id}`)
+  redirect(`/dashboard/${workspace.id}`)
 }
 
 export default Dashboard
