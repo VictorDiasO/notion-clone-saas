@@ -8,6 +8,7 @@ import { useSupabaseUser } from '@/lib/providers/supabase-user-provider';
 import { v4 } from 'uuid';
 import { createFolder } from '@/lib/supabase/queries';
 import { useToast } from '../ui/use-toast';
+import { Accordion } from '../ui/accordion';
 
 interface FoldersDropdownListProps {
   workspaceFolders: Folder[];
@@ -18,7 +19,7 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
   workspaceId,
   workspaceFolders
 }) => {
-  const { state, dispatch } = useAppState();
+  const { state, dispatch, folderId } = useAppState();
   const { subscription } = useSupabaseUser();
   const { toast } = useToast();
   
@@ -63,25 +64,47 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
     const { data, error } = await createFolder(newFolder);
 
     if (error) {
-      toast({ title: 'Error', variant: 'destructive', description: 'Could not create the folder' })
+      toast({
+        title: 'Error',
+        variant: 'destructive',
+        description: 'Could not create the folder'
+      });
+    } else {
+      toast({
+        title: 'Success',
+        description: 'Created the folder successfully'
+      })
     }
   }
 
   return (
-    <div
-      className='flex sticky z-20 top-0 bg-background w-full  h-10 group/title justify-between items-center pr-4 text-Neutrals/neutrals-8'
-    >
-      <span className='text-Neutrals/neutrals-8 font-bold text-xs'>
-        FOLDERS
-      </span>
-      <TooltipComponent message='Create Folder'>
-        <PlusIcon
-          onClick={addFolderHandler}
-          size={16}
-          className='group-hover/title:inline-block hidden cursor-pointer hover:dark:text-white'
-        />
-      </TooltipComponent>
-    </div>
+    <>
+      <div
+        className='flex sticky z-20 top-0 bg-background w-full  h-10 group/title justify-between items-center pr-4 text-Neutrals/neutrals-8'
+      >
+        <span className='text-Neutrals/neutrals-8 font-bold text-xs'>
+          FOLDERS
+        </span>
+        <TooltipComponent message='Create Folder'>
+          <PlusIcon
+            onClick={addFolderHandler}
+            size={16}
+            className='group-hover/title:inline-block hidden cursor-pointer hover:dark:text-white'
+          />
+        </TooltipComponent>
+      </div>
+      <Accordion
+        type='multiple'
+        defaultValue={[folderId ?? '']}
+        className='pb-20'
+      >
+        {folders.filter((folder) => !folder.inTrash).map((folder) => (
+          <div key={folder.id}>
+            
+          </div>
+        ))}
+      </Accordion>
+    </>
   )
 }
 
