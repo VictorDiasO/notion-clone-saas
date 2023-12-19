@@ -6,6 +6,8 @@ import React, { useMemo, useState } from 'react'
 import { AccordionItem, AccordionTrigger } from '../ui/accordion';
 import clsx from 'clsx';
 import EmojiPicker from '../global/emoji-picker';
+import { updateFolder } from '@/lib/supabase/queries';
+import { useToast } from '../ui/use-toast';
 
 interface DropdownProps {
   title: string;
@@ -27,6 +29,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const supabase = createClientComponentClient();
   const { state, dispatch, workspaceId, folderId } = useAppState();
+  const { toast } = useToast();
+
   const [ isEditing, setIsEditing ] = useState(false);
   
   const router = useRouter();
@@ -64,7 +68,20 @@ const Dropdown: React.FC<DropdownProps> = ({
           folderId: id,
           folder: { iconId: selectedEmoji }
         }
-      })
+      });
+      const { data, error } = await updateFolder({ iconId: selectedEmoji }, id);
+      if (error) {
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: 'Could not update the emoji for this folder'
+        })
+      } else {
+        toast({
+          title: 'Success',
+          description: 'Emoji updated successfully'
+        })
+      }
     }
   }
 
