@@ -35,7 +35,32 @@ const Dropdown: React.FC<DropdownProps> = ({
   
   const router = useRouter();
   const isFolder = listType === 'folder';
-  
+
+  const folderTitle: string | undefined = useMemo(() => {
+    if (listType === 'folder') {
+      const stateTitle = state.workspaces
+        .find(workspace => workspace.id === workspaceId)
+        ?.folders.find((folder) => folder.id === id)?.title;
+      
+      if (title === stateTitle || !stateTitle) return title;
+      return stateTitle;
+    } 
+  }, [state, listType, workspaceId, id, title]);
+
+  const fileTitle: string | undefined = useMemo(() => {
+    if (listType === 'file') {
+      const fileAndFolderId = id.split('folder');
+      const stateTitle = state.workspaces
+        .find(workspace => workspace.id === workspaceId)
+        ?.folders.find(folder => folder.id === fileAndFolderId[0])
+        ?.files.find(file => file.id === fileAndFolderId[0])
+        ?.title;
+
+      if (title === stateTitle || !stateTitle) return title;
+      return title;
+    }
+  }, [id, listType, state.workspaces, title, workspaceId]);
+
   const groupIdentifies = clsx('dark:text-white whitespace-nowrap flex justify-between items-center w-full relative',
   {
     'group/folder': isFolder,
@@ -106,6 +131,23 @@ const Dropdown: React.FC<DropdownProps> = ({
                 {iconId}
               </EmojiPicker>
             </div>
+            <input
+              type="text"
+              value={listType === 'folder' ? folderTitle : fileTitle}
+              className={clsx(
+                'outline-none overflow-hidden w-[140px] text-Neutrals/neutrals-7',
+                {
+                  'bg-muted cursor-text': isEditing,
+                  'bg-transparent cursor-pointer': !isEditing,
+                }
+              )}
+              // readOnly={!isEditing}
+              // onDoubleClick={handleDoubleClick}
+              // onBlur={handleBlur}
+              // onChange={
+              //   listType === 'folder' ? folderTitleChange : fileTitleChange
+              // }
+            />
           </div>
         </div>
       </AccordionTrigger>
