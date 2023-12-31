@@ -81,7 +81,7 @@ const WorkspaceDropdown: React.FC<WorkspaceDropdownProps> = ({
               { !!sharedWorkspaces.length && (
                 <>
                   <p className='text-muted-foreground'>
-                    Private
+                    Shared
                   </p>
                   <hr></hr>
                   {sharedWorkspaces.map((workspace) => (
