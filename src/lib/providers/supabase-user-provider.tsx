@@ -38,7 +38,6 @@ export const SupabaseUserProvider: React.FC<SupabaseUserProviderProps> = ({
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        console.log(user);
         setUser(user);
         const { data, error } = await getUserSubscriptionStatus(user.id);
 

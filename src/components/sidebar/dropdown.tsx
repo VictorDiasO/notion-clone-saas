@@ -17,7 +17,6 @@ import { PlusIcon, Trash } from 'lucide-react';
 import { File } from '@/lib/supabase/supabase.types';
 import { v4 } from 'uuid';
 import { useSupabaseUser } from '@/lib/providers/supabase-user-provider';
-import { twMerge } from 'tailwind-merge';
 
 interface DropdownProps {
   title: string;
@@ -91,9 +90,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleBlur = async () => {
     if (!isEditing) return;
-
     setIsEditing(false);
-
     const fId = id.split('folder');
     if (fId?.length === 1) {
       if (!folderTitle) return;
@@ -180,9 +177,14 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   //move to trash
   const moveToTrash = async () => {
+    console.log('User:: ', user?.email);
+    console.log('Workspace:: ', workspaceId);
     if (!user?.email || !workspaceId) return;
+
     const pathId = id.split('folder');
+    
     if (listType === 'folder') {
+      console.log('Deleting folderrr: ');
       dispatch({
         type: 'UPDATE_FOLDER',
         payload: {
@@ -227,12 +229,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         toast({
           title: 'Error',
           variant: 'destructive',
-          description: 'Could not move the folder to trash',
+          description: 'Could not move the file to trash',
         });
       } else {
         toast({
           title: 'Success',
-          description: 'Moved folder to trash',
+          description: 'Moved file to trash',
         });
       }
     }
@@ -265,7 +267,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           'group-hover/folder:block': listType === 'folder',
         }
       ),
-    [isFolder]
+    [listType]
   );
 
   const addNewFile = async () => {
@@ -315,7 +317,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         p-2 
         dark:text-muted-foreground 
         text-sm"
-        disabled={listType === 'file'}
+        // disabled={listType === 'file'}
       >
         <div className={groupIdentifies}>
           <div
@@ -347,7 +349,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             />
           </div>
           <div className={hoverStyles}>
-            <TooltipComponent message="Delete Folder">
+            <TooltipComponent message={listType === 'folder' ? "Delete Folder" : "Delete File"}>
               <Trash
                 onClick={moveToTrash}
                 size={20}

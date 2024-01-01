@@ -49,3 +49,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Observations
 - I don't know why the scroll bars are appearing even when its not necessary. But I saw that I can use "overflow-auto" instead of "overflow-scroll";
+
+- The dispatch stuff can be called only in sucessfull cases, using like the ".then" or inside a try/catch block that executes the dispatch function only when everything went well.

@@ -32,7 +32,7 @@ const CustomDialogTrigger: React.FC<CustomDialogTriggerProps> = ({
         {children}
       </DialogTrigger>
       <DialogContent
-        className='h-screen block sm:h-[440px] overflow-scroll w-full'
+        className='h-screen block sm:h-[440px] overflow-auto w-full'
       >
         <DialogHeader>
           <DialogTitle>{header}</DialogTitle>
